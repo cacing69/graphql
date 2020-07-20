@@ -40,12 +40,12 @@ func main() {
 
 	route := fiber.New()
 
-	route.Post("/v1", func(ctx *fiber.Ctx) {
+	route.Get("/v1", func(ctx *fiber.Ctx) {
 		result := executeQuery(ctx.Query("query"), schema)
 		ctx.JSON(result)
 	})
 
-	route.Listen(3000)
+	route.Listen(4000)
 }
 
 func executeQuery(query string, schema graphql.Schema) *graphql.Result {
