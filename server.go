@@ -8,29 +8,13 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-var aggregateSchema = graphql.Fields{
-	"ping":  schema.SysPing(),
-	"user":  schema.UserRow(),
-	"users": schema.UserRows(),
-}
-
-var aggregateMutations = graphql.NewObject(graphql.ObjectConfig{
-	Name: "mutation",
-	Fields: graphql.Fields{
-		"authToken":  schema.AuthToken(),
-		"userInsert": schema.UserInsert(),
-		"userUpdate": schema.UserInsert(),
-		"userDelete": schema.UserInsert(),
-	},
-})
-
 func main() {
-	query := graphql.ObjectConfig{Name: "query", Fields: aggregateSchema}
+	query := graphql.ObjectConfig{Name: "query", Fields: schema.AggregateQuery}
 
 	schema, err := graphql.NewSchema(
 		graphql.SchemaConfig{
 			Query:    graphql.NewObject(query),
-			Mutation: aggregateMutations,
+			Mutation: schema.AggregateMutations,
 		},
 	)
 
