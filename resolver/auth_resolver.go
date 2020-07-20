@@ -1,13 +1,12 @@
 package resolver
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/cacing69/graphql/entity"
+	"github.com/cacing69/graphql/lib"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql"
-	"github.com/graphql-go/graphql/language/ast"
 )
 
 var LogType = graphql.NewObject(
@@ -66,9 +65,7 @@ func AuthToken() *graphql.Field {
 			var user entity.User
 			var logging interface{}
 
-			// if ok {
-			selected, _ := getSelectedFields(p)
-			// log.Printf("", selected)
+			selected, _ := lib.GetSelectedFields(p)
 			if _, ok := selected["user"]; ok {
 				user = entity.User{
 					UserName: "Cacing69",
@@ -96,7 +93,7 @@ func AuthToken() *graphql.Field {
 			}
 
 			data := fiber.Map{
-				"token": "AssadadsadasdlAKSdjsadasd.asdhasdbsadsdsadsad.sad.sad.d.sad.ad.ad.a.dsa",
+				"token": "this_is_token",
 				"user":  user,
 				"log":   logging,
 			}
@@ -104,50 +101,4 @@ func AuthToken() *graphql.Field {
 			return data, nil
 		},
 	}
-}
-
-func getSelectedFields(params graphql.ResolveParams) (map[string]interface{}, error) {
-	fieldASTs := params.Info.FieldASTs
-	if len(fieldASTs) == 0 {
-		return nil, fmt.Errorf("getSelectedFields: ResolveParams has no fields")
-	}
-	return selectedFieldsFromSelections(params, fieldASTs[0].SelectionSet.Selections)
-}
-
-func selectedFieldsFromSelections(params graphql.ResolveParams, selections []ast.Selection) (selected map[string]interface{}, err error) {
-	selected = map[string]interface{}{}
-
-	for _, s := range selections {
-		switch s := s.(type) {
-		case *ast.Field:
-			if s.SelectionSet == nil {
-				selected[s.Name.Value] = true
-			} else {
-				selected[s.Name.Value], err = selectedFieldsFromSelections(params, s.SelectionSet.Selections)
-				if err != nil {
-					return
-				}
-			}
-		case *ast.FragmentSpread:
-			n := s.Name.Value
-			frag, ok := params.Info.Fragments[n]
-			if !ok {
-				err = fmt.Errorf("getSelectedFields: no fragment found with name %v", n)
-
-				return
-			}
-
-			selected[s.Name.Value], err = selectedFieldsFromSelections(params, frag.GetSelectionSet().Selections)
-
-			if err != nil {
-				return
-			}
-		default:
-			err = fmt.Errorf("getSelectedFields: found unexpected selection type %v", s)
-
-			return
-		}
-	}
-
-	return
 }
