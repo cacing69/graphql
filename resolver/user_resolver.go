@@ -158,7 +158,7 @@ var UserType = graphql.NewObject(
 	},
 )
 
-func UserRow() *graphql.Field {
+func User() *graphql.Field {
 	return &graphql.Field{
 		Type:        UserType,
 		Description: "get single user",
@@ -221,7 +221,7 @@ func getArgsFromQuery(params graphql.ResolveParams, selections []ast.Selection) 
 	return args, err
 }
 
-func UserRows() *graphql.Field {
+func Users() *graphql.Field {
 	return &graphql.Field{
 		Type:        graphql.NewList(UserType),
 		Description: "read user list",
@@ -231,7 +231,7 @@ func UserRows() *graphql.Field {
 	}
 }
 
-func UserInsert() *graphql.Field {
+func CreateUser() *graphql.Field {
 	return &graphql.Field{
 		Type:        UserType,
 		Description: "insert a new user",
