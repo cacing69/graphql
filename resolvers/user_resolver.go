@@ -19,6 +19,10 @@ func User() *graphql.Field {
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			// x, _ := libs.GetMappedArgs(p)
+			// spew.Dump(p.Info.FieldName)
+			// spew.Dump(p.Info.RootValue)
+
+			// spew.Dump(p.Context.Value("authorization"))
 
 			id, ok := p.Args["id"].(int)
 			if ok {

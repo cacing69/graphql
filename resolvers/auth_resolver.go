@@ -59,7 +59,9 @@ func AuthToken() *graphql.Field {
 			},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			log.Println(p.Args)
+			// log.Println(p.Args)
+
+			// spew.Dump(p.Info.FieldName)
 
 			var user models.User
 			var logging interface{}
