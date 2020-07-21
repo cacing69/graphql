@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/cacing69/graphql/libs"
 	"github.com/cacing69/graphql/schema"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql"
@@ -25,18 +26,11 @@ func main() {
 	route := fiber.New()
 
 	route.Get("/v1", func(ctx *fiber.Ctx) {
-		result := executeQuery(ctx.Query("query"), schema)
+
+		result := libs.ExecuteQuery(ctx.Query("query"), schema)
+
 		ctx.JSON(result)
 	})
 
 	route.Listen(4000)
-}
-
-func executeQuery(query string, schema graphql.Schema) *graphql.Result {
-	result := graphql.Do(graphql.Params{
-		Schema:        schema,
-		RequestString: query,
-	})
-
-	return result
 }
