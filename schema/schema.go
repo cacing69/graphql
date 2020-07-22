@@ -1,6 +1,7 @@
 package schema
 
 import (
+	// "github.com/cacing69/graphql/resolvers"
 	"github.com/cacing69/graphql/resolvers"
 	"github.com/graphql-go/graphql"
 )

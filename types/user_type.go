@@ -9,13 +9,24 @@ var UserType = graphql.NewObject(
 			"id": &graphql.Field{
 				Type: graphql.Int,
 			},
-			"userName": &graphql.Field{
+			"name": &graphql.Field{
 				Type: graphql.String,
 			},
-			"history": &graphql.Field{
-				Type: graphql.NewList(HistoryType),
+			// "history": &graphql.Field{
+			// 	Type: graphql.NewList(HistoryType),
+			// 	Args: graphql.FieldConfigArgument{
+			// 		"id": &graphql.ArgumentConfig{
+			// 			Type: graphql.Int,
+			// 		},
+			// 	},
+			// },
+			"tester": &graphql.Field{
+				Type: graphql.NewList(TesterType),
 				Args: graphql.FieldConfigArgument{
 					"id": &graphql.ArgumentConfig{
+						Type: graphql.Int,
+					},
+					"last": &graphql.ArgumentConfig{
 						Type: graphql.Int,
 					},
 				},

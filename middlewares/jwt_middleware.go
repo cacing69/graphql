@@ -1,10 +1,8 @@
 package middlewares
 
 import (
-	"errors"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql/language/ast"
@@ -29,16 +27,16 @@ func Jwt(ctx *fiber.Ctx) {
 
 	typeQuery, _ := getType(query)
 
-	spew.Dump(typeQuery)
+	// spew.Dump(typeQuery)
 
 	if pulicQuery[typeQuery] {
 		// this is public query
 		ctx.Next()
 	} else {
 		// this is protected query
-		spew.Dump(pulicQuery[typeQuery])
-		ctx.Next(errors.New("provide your token"))
-		// ctx.Next()
+		// spew.Dump(pulicQuery[typeQuery])
+		// ctx.Next(errors.New("provide your token"))
+		ctx.Next()
 	}
 }
 

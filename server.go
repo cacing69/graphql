@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	_ "github.com/cacing69/graphql/configs"
 	"github.com/cacing69/graphql/entities"
 	"github.com/cacing69/graphql/handlers"
 	"github.com/cacing69/graphql/middlewares"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+
 	query := graphql.ObjectConfig{Name: "query", Fields: schema.AggregateQuery}
 
 	schema, err := graphql.NewSchema(
@@ -43,9 +45,9 @@ func main() {
 		},
 	)
 
-	route.Use("/v1", middlewares.Jwt)
+	route.Use("/graphql", middlewares.Jwt)
 
-	route.Post("/v1", func(ctx *fiber.Ctx) {
+	route.Get("/graphql", func(ctx *fiber.Ctx) {
 		result := handlers.GraphQLExecuteQuery(ctx, schema)
 		ctx.JSON(result)
 	})

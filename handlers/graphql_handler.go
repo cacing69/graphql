@@ -6,12 +6,11 @@ import (
 )
 
 func GraphQLExecuteQuery(ctx *fiber.Ctx, schema graphql.Schema) *graphql.Result {
-
-	// spew.Dump(ctx.Query("query"))
-
 	token := ctx.Fasthttp.Request.Header.Peek("Authorization")
 
 	ctx.Fasthttp.SetUserValue("authorization", token)
+
+	// spew.Dump(ctx.Query("query"))
 
 	query := ctx.Query("query")
 

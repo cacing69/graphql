@@ -51,7 +51,7 @@ func AuthToken() *graphql.Field {
 		Type:        AuthTokenType,
 		Description: "get token auth",
 		Args: graphql.FieldConfigArgument{
-			"username": &graphql.ArgumentConfig{
+			"email": &graphql.ArgumentConfig{
 				Type: graphql.NewNonNull(graphql.String),
 			},
 			"password": &graphql.ArgumentConfig{
@@ -70,8 +70,8 @@ func AuthToken() *graphql.Field {
 
 			if _, ok := selected["user"]; ok {
 				user = models.User{
-					UserName: "Cacing69",
-					Email:    "cacingworm69@gmail.com",
+					Name:  "Cacing69",
+					Email: "cacingworm69@gmail.com",
 				}
 				log.Println("user_hit")
 			}
