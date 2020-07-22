@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/cacing69/graphql/app/http/handler"
 	"log"
 
-	_ "github.com/cacing69/graphql/configs"
-	"github.com/cacing69/graphql/entities"
-	"github.com/cacing69/graphql/handlers"
-	"github.com/cacing69/graphql/middlewares"
+	"github.com/cacing69/graphql/app/entity"
+	"github.com/cacing69/graphql/app/http/middleware"
+	_ "github.com/cacing69/graphql/config/database"
 	"github.com/cacing69/graphql/schema"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql"
@@ -33,9 +33,9 @@ func main() {
 			CaseSensitive: true,
 			StrictRouting: true,
 			ErrorHandler: func(c *fiber.Ctx, err error) {
-				c.JSON(entities.GrapqlError{
+				c.JSON(entity.GrapqlError{
 					Data: nil,
-					Errors: []entities.GraphqlErrorList{
+					Errors: []entity.GraphqlErrorList{
 						{
 							Message: err.Error(),
 						},
@@ -45,10 +45,10 @@ func main() {
 		},
 	)
 
-	route.Use("/graphql", middlewares.Jwt)
+	route.Use("/graphql", middleware.Jwt)
 
 	route.Get("/graphql", func(ctx *fiber.Ctx) {
-		result := handlers.GraphQLExecuteQuery(ctx, schema)
+		result := handler.GraphQLExecuteQuery(ctx, schema)
 		ctx.JSON(result)
 	})
 
