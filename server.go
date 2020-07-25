@@ -1,33 +1,21 @@
 package main
 
 import (
-	"github.com/cacing69/graphql/app/http/handler"
-	"log"
-
 	"github.com/cacing69/graphql/app/entity"
+	"github.com/cacing69/graphql/app/http/handler"
 	"github.com/cacing69/graphql/app/http/middleware"
-	_ "github.com/cacing69/graphql/config/database"
-	"github.com/cacing69/graphql/schema"
+	"github.com/cacing69/graphql/config/database"
+	"github.com/cacing69/graphql/config/env"
+	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber"
-	"github.com/graphql-go/graphql"
+	fiberMiddleware "github.com/gofiber/fiber/middleware"
+	"strconv"
 )
 
 func main() {
+	database.Connect()
 
-	query := graphql.ObjectConfig{Name: "query", Fields: schema.AggregateQuery}
-
-	schema, err := graphql.NewSchema(
-		graphql.SchemaConfig{
-			Query:    graphql.NewObject(query),
-			Mutation: schema.AggregateMutations,
-		},
-	)
-
-	if err != nil {
-		log.Fatalf("failed to create new schema, error: %v", err)
-	}
-
-	route := fiber.New(
+	app := fiber.New(
 		&fiber.Settings{
 			Prefork:       true,
 			CaseSensitive: true,
@@ -45,12 +33,16 @@ func main() {
 		},
 	)
 
-	route.Use("/graphql", middleware.Jwt)
+	//app.Use(cors)
+	app.Use(cors.New())
+	app.Use(fiberMiddleware.Recover())
 
-	route.Get("/graphql", func(ctx *fiber.Ctx) {
-		result := handler.GraphQLExecuteQuery(ctx, schema)
-		ctx.JSON(result)
-	})
+	graph := app.Group("/graphql")
+	graph.Get("", middleware.AuthGraphQL, handler.GraphQLExecuteQuery)
 
-	route.Listen(4000)
+	p := env.Get("SERVER_PORT")
+
+	port, _ := strconv.Atoi(p)
+
+	app.Listen(port)
 }

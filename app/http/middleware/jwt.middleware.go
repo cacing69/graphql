@@ -21,7 +21,7 @@ var pulicQuery = map[string]bool{
 	"register":  true,
 }
 
-func Jwt(ctx *fiber.Ctx) {
+func AuthGraphQL(ctx *fiber.Ctx) {
 
 	query := ctx.Query("query")
 
@@ -35,7 +35,8 @@ func Jwt(ctx *fiber.Ctx) {
 	} else {
 		// this is protected query
 		// spew.Dump(pulicQuery[typeQuery])
-		// ctx.Next(errors.New("provide your token"))
+		//ctx.Next(errors.New("missing or malformed token"))
+		//ctx.Next(errors.New("Invalid or expired token"))
 		ctx.Next()
 	}
 }

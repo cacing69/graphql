@@ -15,6 +15,9 @@ var Type = graphql.NewObject(
 			"name": &graphql.Field{
 				Type: graphql.String,
 			},
+			"password": &graphql.Field{
+				Type: graphql.String,
+			},
 			// "history": &graphql.Field{
 			// 	Type: graphql.NewList(HistoryType),
 			// 	Args: graphql.FieldConfigArgument{

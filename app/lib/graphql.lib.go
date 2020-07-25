@@ -58,6 +58,16 @@ func GetMappedArgs(p graphql.ResolveParams) (map[string]interface{}, error) {
 	return getArgsFromQuery(p, fieldASTs[0].SelectionSet.Selections)
 }
 
+func IsFieldExist(param string, params graphql.ResolveParams) bool {
+	fieldMap, _ := GetSelectedFields(params)
+
+	if _, ok := fieldMap[param]; ok {
+		return true
+	}
+
+	return false
+}
+
 func getArgsFromQuery(params graphql.ResolveParams, selections []ast.Selection) (args map[string]interface{}, err error) {
 	args = map[string]interface{}{}
 

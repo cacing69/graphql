@@ -16,9 +16,9 @@ var AggregateQuery = graphql.Fields{
 var AggregateMutations = graphql.NewObject(graphql.ObjectConfig{
 	Name: "mutation",
 	Fields: graphql.Fields{
-		"authToken":  auth.Resolver{}.Token(),
-		"createUser": user.Resolver{}.Create(),
-		"updateUser": user.Resolver{}.Update(),
-		"deleteUser": user.Resolver{}.Delete(),
+		"auth_token":  auth.Resolver{}.Token(),
+		"create_user": user.Resolver{}.Create(),
+		"update_user": user.Resolver{}.Update(),
+		"delete_user": user.Resolver{}.Delete(),
 	},
 })
