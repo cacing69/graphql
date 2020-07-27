@@ -26,17 +26,17 @@ var Type = graphql.NewObject(
 			// 		},
 			// 	},
 			// },
-			"tester": &graphql.Field{
-				Type: graphql.NewList(tester.Type),
-				Args: graphql.FieldConfigArgument{
-					"id": &graphql.ArgumentConfig{
-						Type: graphql.Int,
-					},
-					"last": &graphql.ArgumentConfig{
-						Type: graphql.Int,
-					},
-				},
-			},
+			//"tester": &graphql.Field{
+			//	Type: graphql.NewList(tester.Type),
+			//	Args: graphql.FieldConfigArgument{
+			//		"id": &graphql.ArgumentConfig{
+			//			Type: graphql.Int,
+			//		},
+			//		"last": &graphql.ArgumentConfig{
+			//			Type: graphql.Int,
+			//		},
+			//	},
+			//},
 		},
 	},
 )

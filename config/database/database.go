@@ -13,7 +13,7 @@ import (
 //var  con *sql.DB
 var DB *gorm.DB
 func Connect() {
-	datasource := "root:cacing.mysql@tcp(localhost:3306)/go_graphql?parseTime=true&charset=utf8"
+	datasource := "root:cacing.mysql@tcp(localhost:3306)/db_room_prod?parseTime=true&charset=utf8"
 
 	//db, _ := sql.Open("mysql", datasource)
 	//con = db

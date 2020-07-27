@@ -5,7 +5,7 @@ type User struct {
 	Name     string
 	Email    string
 	Password string
-	Tester   []*Tester `gorm:"foreignkey:user_id"`
+	//Tester   []*Tester `gorm:"foreignkey:user_id"`
 }
 
 func (User) TableName() string {

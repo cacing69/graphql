@@ -5,9 +5,6 @@ import (
 	"github.com/cacing69/graphql/app/model"
 	. "github.com/cacing69/graphql/config/database"
 
-	//"github.com/cacing69/graphql/app/boiler"
-	"github.com/cacing69/graphql/app/lib"
-
 	//"github.com/cacing69/graphql/app/db"
 	//"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	//"strconv"
@@ -40,10 +37,10 @@ func (p Resolver) Find() *graphql.Field {
 			var res model.User
 			db := DB
 
-			if lib.IsFieldExist("tester", p) {
-				//mod = append(mod, qm.Load("Testers"))
-				db = db.Preload("Tester")
-			}
+			//if lib.IsFieldExist("tester", p) {
+			//	//mod = append(mod, qm.Load("Testers"))
+			//	db = db.Preload("Tester")
+			//}
 
 			db.Find(&res, id)
 
@@ -155,10 +152,10 @@ func (p Resolver) Get() *graphql.Field {
 
 			db := DB
 
-			if lib.IsFieldExist("tester", p) {
-				db = db.Preload("Tester")
-				//mod = append(mod, qm.Load("Testers"))
-			}
+			//if lib.IsFieldExist("tester", p) {
+			//	db = db.Preload("Tester")
+			//	//mod = append(mod, qm.Load("Testers"))
+			//}
 
 			var res []model.User
 
