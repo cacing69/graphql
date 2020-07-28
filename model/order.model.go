@@ -1,9 +1,12 @@
 package model
 
-import "time"
+import (
+	"database/sql"
+	"time"
+)
 
 type Order struct {
-	Id       uint64 `gorm:"primarykey"`
+	Id       uint64 `json:"id" gorm:"column:order_id;primaryKey"`
 	No     string `json:"no" gorm:"column:order_no"`
 	Via    string `json:"via" gorm:"column:order_via"`
 	Status string `json:"status" gorm:"column:order_status"`
@@ -19,6 +22,9 @@ type Order struct {
 	NoResi string `json:"no_resi" gorm:"column:order_no_resi"`
 	NoReff string `json:"no_reff" gorm:"column:order_no_reff"`
 	PelangganId uint64 `json:"pelanggan_id" gorm:"column:order_pelanggan_id"`
+	Pelanggan Pelanggan `json:"pelanggan" gorm:"foreignKey:order_pelanggan_id"`
+	Kurir Kurir `json:"kurir" gorm:"foreignKey:order_kurir_id"`
+	Kecamatan Location `json:"kecamatan" gorm:"foreignKey:order_kecamatan_id"`
 	SelesaiBy uint64 `json:"selesai_by" gorm:"column:order_selesai_by"`
 	DikirimBy uint64 `json:"created_by" gorm:"column:order_created_by"`
 	BatalBy uint64 `json:"batal_by" gorm:"column:order_batal_by"`
@@ -34,11 +40,12 @@ type Order struct {
 	CreatedBy uint64 `json:"created_by" gorm:"column:order_created_by"`
 	UpdatedBy uint64 `json:"updated_by" gorm:"column:order_updated_by"`
 	DeletedBy uint64 `json:"deleted_by" gorm:"column:order_deleted_by"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:order_created_at"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:order_updated_at"`
-	DeletedAt time.Time `json:"deleted_at" gorm:"column:order_deleted_at"`
+	CreatedAt sql.NullTime `json:"created_at" gorm:"column:order_created_at"`
+	UpdatedAt sql.NullTime `json:"updated_at" gorm:"column:order_updated_at"`
+	DeletedAt sql.NullTime `json:"deleted_at" gorm:"column:order_deleted_at"`
+	Detail []OrderDetail `json:"detail" gorm:"foreignKey:order_detail_order_id"`
 }
 
 func (Order) TableName() string {
-	return "users"
+	return "t_order"
 }

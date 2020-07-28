@@ -1,9 +1,11 @@
 package model
 
-import "time"
+import (
+	"database/sql"
+)
 
 type User struct {
-	Id       uint `gorm:"primarykey"`
+	Id       uint `json:"id" gorm:"primaryKey"`
 	Nama     string `json:"nama" gorm:"column:nama"`
 	Username string `json:"username" gorm:"column:username"`
 	Foto     string `json:"foto" gorm:"column:foto"`
@@ -11,12 +13,12 @@ type User struct {
 	Password string `json:"password" gorm:"column:password"`
 	//Tester   []*Tester `gorm:"foreignkey:user_id"`
 	// default available column on models
-	CreatedBy uint64 `json:"created_by" gorm:"column:created_by"`
-	UpdatedBy uint64 `json:"updated_by" gorm:"column:updated_by"`
-	DeletedBy uint64 `json:"deleted_by" gorm:"column:deleted_by"`
-	CreatedAt time.Time `json:"created_at" gorm:"column:created_at"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
-	DeletedAt time.Time `json:"deleted_at" gorm:"column:deleted_at"`
+	CreatedBy sql.NullInt64 `json:"created_by" gorm:"column:created_by"`
+	UpdatedBy sql.NullInt64 `json:"updated_by" gorm:"column:updated_by"`
+	DeletedBy sql.NullInt64 `json:"deleted_by" gorm:"column:deleted_by"`
+	CreatedAt sql.NullTime `json:"created_at" gorm:"column:created_at"`
+	UpdatedAt sql.NullTime `json:"updated_at" gorm:"column:updated_at"`
+	DeletedAt sql.NullTime `json:"deleted_at" gorm:"column:deleted_at"`
 }
 
 func (User) TableName() string {

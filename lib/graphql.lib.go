@@ -2,6 +2,7 @@ package lib
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/graphql-go/graphql"
 	"github.com/graphql-go/graphql/language/ast"
@@ -61,8 +62,24 @@ func GetMappedArgs(p graphql.ResolveParams) (map[string]interface{}, error) {
 func IsFieldExist(param string, params graphql.ResolveParams) bool {
 	fieldMap, _ := GetSelectedFields(params)
 
-	if _, ok := fieldMap[param]; ok {
-		return true
+	//check if string contains dot (.)
+	containsDot := strings.Contains(param, ".")
+
+	if containsDot {
+		sliceDot := strings.Split(param, ".")
+		//spew.Dump(sliceDot)
+		if len(sliceDot) == 2 {
+			if _, ok := fieldMap[sliceDot[0]]; ok {
+				slice1 := fieldMap[sliceDot[0]].(map[string]interface{})
+				if _, ok2 := slice1[sliceDot[1]]; ok2 {
+					return true
+				}
+			}
+		}
+	} else {
+		if _, ok := fieldMap[param]; ok {
+			return true
+		}
 	}
 
 	return false

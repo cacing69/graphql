@@ -2,9 +2,9 @@ package resolver
 
 import (
 	"errors"
-	"github.com/cacing69/graphql/app/model"
-	"github.com/cacing69/graphql/app/object"
 	. "github.com/cacing69/graphql/config/database"
+	"github.com/cacing69/graphql/model"
+	"github.com/cacing69/graphql/object"
 
 	//"github.com/cacing69/graphql/app/db"
 	//"github.com/volatiletech/sqlboiler/v4/queries/qm"

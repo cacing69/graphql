@@ -1,6 +1,6 @@
 package mock
 
-import "github.com/cacing69/graphql/app/model"
+import "github.com/cacing69/graphql/model"
 
 var ViewerMock = []model.Viewer{
 	{

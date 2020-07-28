@@ -11,17 +11,9 @@ var AuthTokenType = graphql.NewObject(
 			"token": &graphql.Field{
 				Type: graphql.String,
 			},
-			"user": &graphql.Field{
-				Type: UserType,
+			"message": &graphql.Field{
+				Type: graphql.String,
 			},
-			//"log": &graphql.Field{
-			//	Type: graphql.NewList(auth.LogType),
-			//	Args: graphql.FieldConfigArgument{
-			//		"last": &graphql.ArgumentConfig{
-			//			Type: graphql.Int,
-			//		},
-			//	},
-			//},
 		},
 	},
 )

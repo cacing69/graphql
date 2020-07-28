@@ -1,49 +1,15 @@
 package resolver
 
 import (
-	"github.com/cacing69/graphql/app/lib"
-	"github.com/cacing69/graphql/app/model"
-	"github.com/cacing69/graphql/app/object"
+	"errors"
+	. "github.com/cacing69/graphql/config/database"
+	"github.com/cacing69/graphql/lib"
+	"github.com/cacing69/graphql/model"
+	"github.com/cacing69/graphql/object"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql"
-	"log"
+	"gorm.io/gorm"
 )
-
-//var LogType = graphql.NewObject(
-//	graphql.ObjectConfig{
-//		Name: "log",
-//		Fields: graphql.Fields{
-//			"key": &graphql.Field{
-//				Type: graphql.String,
-//			},
-//			"value": &graphql.Field{
-//				Type: graphql.String,
-//			},
-//		},
-//	},
-//)
-
-//var AuthTokenType = graphql.NewObject(
-//	graphql.ObjectConfig{
-//		Name: "authToken",
-//		Fields: graphql.Fields{
-//			"token": &graphql.Field{
-//				Type: graphql.String,
-//			},
-//			"user": &graphql.Field{
-//				Type: user.Type,
-//			},
-//			"log": &graphql.Field{
-//				Type: graphql.NewList(LogType),
-//				Args: graphql.FieldConfigArgument{
-//					"last": &graphql.ArgumentConfig{
-//						Type: graphql.Int,
-//					},
-//				},
-//			},
-//		},
-//	},
-//)
 
 func AuthToken() *graphql.Field {
 	return &graphql.Field{
@@ -58,47 +24,52 @@ func AuthToken() *graphql.Field {
 			},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			// log.Println(p.Args)
-
-			// spew.Dump(p.Info.FieldName)
-
+			var data fiber.Map
 			var user model.User
-			var logging interface{}
 
-			selected, _ := lib.GetSelectedFields(p)
+			auth, user := authenticate(p.Args["username"].(string), p.Args["password"].(string))
 
-			if _, ok := selected["user"]; ok {
-				user = model.User{
-					Nama:  "Cacing69",
+			if !auth {
+				data = fiber.Map{
+					"token": nil,
+					"message": "invalid username/password",
 				}
-				log.Println("user_hit")
-			}
+			} else {
+				signedToken, err := lib.ClaimToken(user)
 
-			if _, ok := selected["log"]; ok {
-				logging = []fiber.Map{
-					fiber.Map{
-						"key":   "key 1",
-						"value": "value 1",
-					},
-					fiber.Map{
-						"key":   "key 1",
-						"value": "value 1",
-					},
-					fiber.Map{
-						"key":   "key 1",
-						"value": "value 1",
-					},
+				if err != nil {
+					return err, nil
 				}
-				log.Println("log_hit")
+
+				data = fiber.Map{
+					"token": signedToken,
+					"message": "success generated token",
+				}
 			}
 
-			data := fiber.Map{
-				"token": "this_is_token",
-				"user":  user,
-				"log":   logging,
-			}
 
 			return data, nil
 		},
+	}
+}
+
+func authenticate(username string, password string) (bool, model.User) {
+	// query : get user from db
+	var query model.User
+
+	db := DB
+
+	result := db.First(&query, "username = ?", username)
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return false, model.User{}
+	}
+
+	if password == "password" {
+		return true, model.User{
+			Id:   1,
+		}
+	} else {
+		return false, model.User{}
 	}
 }

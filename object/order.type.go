@@ -2,6 +2,16 @@ package object
 
 import "github.com/graphql-go/graphql"
 
+var OrderEnumStatus = graphql.NewEnum(graphql.EnumConfig{
+	Name: "enum_order_status",
+	Values: graphql.EnumValueConfigMap{
+		"SELESAI": &graphql.EnumValueConfig{Value: "selesai"},
+		"BATAL": &graphql.EnumValueConfig{Value: "dibatalkan"},
+		"KIRIM": &graphql.EnumValueConfig{Value: "dikirim"},
+		"TERIMA": &graphql.EnumValueConfig{Value: "diterima"},
+	},
+})
+
 var OrderType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "order",
@@ -24,12 +34,6 @@ var OrderType = graphql.NewObject(
 			"tanggal": &graphql.Field{
 				Type: graphql.DateTime,
 			},
-			"kurir_id": &graphql.Field{
-				Type: graphql.Int,
-			},
-			"kecamatan_id": &graphql.Field{
-				Type: graphql.Int,
-			},
 			"total_dp": &graphql.Field{
 				Type: graphql.Int,
 			},
@@ -48,11 +52,20 @@ var OrderType = graphql.NewObject(
 			"no_resi": &graphql.Field{
 				Type: graphql.String,
 			},
-			"no_Reff": &graphql.Field{
+			"no_reff": &graphql.Field{
 				Type: graphql.String,
 			},
-			"pelanggan_id": &graphql.Field{
-				Type: graphql.Int,
+			"pelanggan": &graphql.Field{
+				Type: PelangganType,
+			},
+			"kurir": &graphql.Field{
+				Type: KurirType,
+			},
+			"kecamatan": &graphql.Field{
+				Type: LocationType,
+			},
+			"detail": &graphql.Field{
+				Type: graphql.NewList(OrderDetailType),
 			},
 			"selesai_by": &graphql.Field{
 				Type: graphql.Int,

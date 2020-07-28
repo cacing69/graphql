@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/cacing69/graphql/app/entity"
-	"github.com/cacing69/graphql/app/http/handler"
-	"github.com/cacing69/graphql/app/http/middleware"
+	"github.com/cacing69/graphql/entity"
 	"github.com/cacing69/graphql/config/database"
 	"github.com/cacing69/graphql/config/env"
+	"github.com/cacing69/graphql/handler"
+	"github.com/cacing69/graphql/middleware"
 	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber"
 	fiberMiddleware "github.com/gofiber/fiber/middleware"
