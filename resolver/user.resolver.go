@@ -1,8 +1,9 @@
-package user
+package resolver
 
 import (
 	"errors"
 	"github.com/cacing69/graphql/app/model"
+	"github.com/cacing69/graphql/app/object"
 	. "github.com/cacing69/graphql/config/database"
 
 	//"github.com/cacing69/graphql/app/db"
@@ -14,12 +15,12 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-type Resolver struct {
-}
+//type User struct {
+//}
 
-func (p Resolver) Find() *graphql.Field {
+func UserFind() *graphql.Field {
 	return &graphql.Field{
-		Type:        Type,
+		Type:        object.UserType,
 		Description: "get single user",
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
@@ -142,9 +143,9 @@ func (p Resolver) Find() *graphql.Field {
 	}
 }
 
-func (p Resolver) Get() *graphql.Field {
+func UserGet() *graphql.Field {
 	return &graphql.Field{
-		Type:        graphql.NewList(Type),
+		Type:        graphql.NewList(object.UserType),
 		Description: "read user list",
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 
@@ -225,9 +226,9 @@ func (p Resolver) Get() *graphql.Field {
 	}
 }
 
-func (p Resolver) Create() *graphql.Field {
+func UserCreate() *graphql.Field {
 	return &graphql.Field{
-		Type:        Type,
+		Type:        object.UserType,
 		Description: "insert a new user",
 		Args: graphql.FieldConfigArgument{
 			"name": &graphql.ArgumentConfig{
@@ -260,9 +261,9 @@ func (p Resolver) Create() *graphql.Field {
 	}
 }
 
-func (p Resolver) Update() *graphql.Field {
+func UserUpdate() *graphql.Field {
 	return &graphql.Field{
-		Type:        Type,
+		Type:        object.UserType,
 		Description: "update user",
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{
@@ -278,9 +279,9 @@ func (p Resolver) Update() *graphql.Field {
 	}
 }
 
-func (p Resolver) Delete() *graphql.Field {
+func UserDelete() *graphql.Field {
 	return &graphql.Field{
-		Type:        Type,
+		Type:        object.UserType,
 		Description: "delete a new user",
 		Args: graphql.FieldConfigArgument{
 			"id": &graphql.ArgumentConfig{

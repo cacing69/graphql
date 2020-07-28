@@ -1,31 +1,27 @@
-package auth
+package resolver
 
 import (
 	"github.com/cacing69/graphql/app/lib"
 	"github.com/cacing69/graphql/app/model"
-	//"github.com/cacing69/graphql/module/user"
+	"github.com/cacing69/graphql/app/object"
 	"github.com/gofiber/fiber"
 	"github.com/graphql-go/graphql"
 	"log"
 )
 
-type Resolver struct {
-
-}
-
-var LogType = graphql.NewObject(
-	graphql.ObjectConfig{
-		Name: "log",
-		Fields: graphql.Fields{
-			"key": &graphql.Field{
-				Type: graphql.String,
-			},
-			"value": &graphql.Field{
-				Type: graphql.String,
-			},
-		},
-	},
-)
+//var LogType = graphql.NewObject(
+//	graphql.ObjectConfig{
+//		Name: "log",
+//		Fields: graphql.Fields{
+//			"key": &graphql.Field{
+//				Type: graphql.String,
+//			},
+//			"value": &graphql.Field{
+//				Type: graphql.String,
+//			},
+//		},
+//	},
+//)
 
 //var AuthTokenType = graphql.NewObject(
 //	graphql.ObjectConfig{
@@ -49,9 +45,9 @@ var LogType = graphql.NewObject(
 //	},
 //)
 
-func(p Resolver) Token() *graphql.Field {
+func AuthToken() *graphql.Field {
 	return &graphql.Field{
-		Type:        TokenType,
+		Type:        object.AuthTokenType,
 		Description: "get token auth",
 		Args: graphql.FieldConfigArgument{
 			"username": &graphql.ArgumentConfig{
@@ -73,8 +69,7 @@ func(p Resolver) Token() *graphql.Field {
 
 			if _, ok := selected["user"]; ok {
 				user = model.User{
-					Name:  "Cacing69",
-					Email: "cacingworm69@gmail.com",
+					Nama:  "Cacing69",
 				}
 				log.Println("user_hit")
 			}

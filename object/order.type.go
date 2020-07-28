@@ -1,8 +1,8 @@
-package order
+package object
 
 import "github.com/graphql-go/graphql"
 
-var Type = graphql.NewObject(
+var OrderType = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name: "order",
 		Fields: graphql.Fields{

@@ -1,13 +1,11 @@
-package sys
+package resolver
 
 import (
 	"github.com/graphql-go/graphql"
 )
 
-type Resolver struct {
-}
 
-func (p Resolver) Ping() *graphql.Field {
+func SysPing() *graphql.Field {
 	return &graphql.Field{
 		Type:        graphql.String,
 		Description: "ping healthcheck",

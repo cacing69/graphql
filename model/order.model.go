@@ -32,11 +32,11 @@ type Order struct {
 	//Tester   []*Tester `gorm:"foreignkey:user_id"`
 	// default available column on models
 	CreatedBy uint64 `json:"created_by" gorm:"column:order_created_by"`
-	UpdatedBy uint64 `json:"updated_by" gorm:"column:updated_by"`
-	DeletedBy uint64 `json:"deleted_by" gorm:"column:deleted_by"`
+	UpdatedBy uint64 `json:"updated_by" gorm:"column:order_updated_by"`
+	DeletedBy uint64 `json:"deleted_by" gorm:"column:order_deleted_by"`
 	CreatedAt time.Time `json:"created_at" gorm:"column:order_created_at"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"column:updated_at"`
-	DeletedAt time.Time `json:"deleted_at" gorm:"column:deleted_at"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"column:order_updated_at"`
+	DeletedAt time.Time `json:"deleted_at" gorm:"column:order_deleted_at"`
 }
 
 func (Order) TableName() string {
