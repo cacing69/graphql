@@ -44,6 +44,9 @@ func OrderGet() *graphql.Field {
 			"page": &graphql.ArgumentConfig{
 				Type: graphql.Int,
 			},
+			"limit": &graphql.ArgumentConfig{
+				Type: graphql.Int,
+			},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			var res []model.Order
@@ -53,11 +56,15 @@ func OrderGet() *graphql.Field {
 			status := p.Args["status"]
 
 			if status != nil {
-				db = db.Where("order_status = ?", p.Args["status"])
+				db = db.Where("order_status = ?", p.Args["status"].(int))
 			}
 
 			if lib.IsFieldExist("pelanggan", p) {
 				db = db.Preload("Pelanggan")
+				//db = db.Preload("Pelanggan", func(db *gorm.DB) *gorm.DB {
+				//	// use custom parameter here
+				//	return db
+				//})
 			}
 
 			if lib.IsFieldExist("kurir", p) {
@@ -70,6 +77,8 @@ func OrderGet() *graphql.Field {
 
 			if lib.IsFieldExist("detail", p) {
 
+				db = db.Preload("Detail")
+
 				if lib.IsFieldExist("detail.merk", p) {
 					db = db.Preload("Detail.Merk")
 				}
@@ -81,15 +90,24 @@ func OrderGet() *graphql.Field {
 
 			db = db.Order("order_id desc")
 
-			page := p.Args["page"]
+			page := 0
 
-			if page != nil {
-				page = 1
+			if p.Args["page"] != nil {
+				if p.Args["page"].(int) < 0 {
+					page = p.Args["page"].(int) - 1
+				}
 			}
 
 			limit := 20
 
-			db = db.Limit(limit).Offset(page.(int) * limit)
+
+			if p.Args["limit"] != nil {
+				if p.Args["limit"].(int) < 0 {
+					limit = p.Args["limit"].(int)
+				}
+			}
+
+			db = db.Limit(limit).Offset(page * limit)
 
 			db.Find(&res)
 
