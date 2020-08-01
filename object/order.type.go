@@ -66,6 +66,11 @@ var OrderType = graphql.NewObject(
 			},
 			"detail": &graphql.Field{
 				Type: graphql.NewList(OrderDetailType),
+				Args: graphql.FieldConfigArgument{
+					"last": &graphql.ArgumentConfig{
+						Type: graphql.Int,
+					},
+				},
 			},
 			"selesai_by": &graphql.Field{
 				Type: graphql.Int,

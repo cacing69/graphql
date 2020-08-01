@@ -59,6 +59,28 @@ func GetMappedArgs(p graphql.ResolveParams) (map[string]interface{}, error) {
 	return getArgsFromQuery(p, fieldASTs[0].SelectionSet.Selections)
 }
 
+func IsParamFilled(param string, params graphql.ResolveParams) (interface{}, bool) {
+	fieldMap, _ := GetMappedArgs(params)
+
+	//check if string contains dot (.)
+	containsDot := strings.Contains(param, ".")
+	//
+	if containsDot {
+		sliceDot := strings.Split(param, ".")
+		//spew.Dump(sliceDot)
+		if len(sliceDot) == 2 {
+			if _, ok := fieldMap[sliceDot[0]]; ok {
+				slice1 := fieldMap[sliceDot[0]].(map[string]interface{})
+				if _, ok2 := slice1[sliceDot[1]]; ok2 {
+					return slice1[sliceDot[1]], true
+				}
+			}
+		}
+	}
+
+	return nil, false
+}
+
 func IsFieldExist(param string, params graphql.ResolveParams) bool {
 	fieldMap, _ := GetSelectedFields(params)
 
